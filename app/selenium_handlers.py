@@ -10,6 +10,8 @@ from selenium.webdriver.chrome.options import Options
 import tempfile
 import os
 
+
+
 def fill_form_oregon(credentials, data) -> str:
     """
     Заполняет форму регистрации на сайте sos.oregon.gov с использованием Selenium.
@@ -24,7 +26,7 @@ def fill_form_oregon(credentials, data) -> str:
     # Создаём временную директорию для профиля
     user_data_dir = tempfile.mkdtemp()
 
-    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")  # Уникальная директория для профиля
+    chrome_options.add_argument("--user-data-dir=" + tempfile.mkdtemp())  # Уникальная временная папка
 
     # Инициализация драйвера Chrome с заданными опциями
     driver = webdriver.Chrome(options=chrome_options)
