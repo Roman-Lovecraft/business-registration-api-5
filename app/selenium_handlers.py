@@ -3,15 +3,31 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+import tempfile
+import os
 
 def fill_form_oregon(credentials, data) -> str:
     """
     Заполняет форму регистрации на сайте sos.oregon.gov с использованием Selenium.
     Возвращает application_id, полученный после успешной отправки формы.
     """
-    # Инициализация драйвера Chrome (без headless для отладки, можно включить headless в продакшене)
-    driver = webdriver.Chrome()
-    wait = WebDriverWait(driver, 10)
+    # Настройка Chrome для headless режима
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Включение headless режима
+    chrome_options.add_argument("--no-sandbox")  # Дополнительная настройка для безопасности
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Для стабильности на некоторых серверах
+    
+    # Создаём временную директорию для профиля
+    user_data_dir = tempfile.mkdtemp()
+
+    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")  # Уникальная директория для профиля
+
+    # Инициализация драйвера Chrome с заданными опциями
+    driver = webdriver.Chrome(options=chrome_options)
 
     try:
         # Открытие сайта
@@ -313,6 +329,9 @@ def fill_form_oregon(credentials, data) -> str:
 
     finally:
         driver.quit()
+                # Удаление временной директории после завершения
+        if os.path.exists(user_data_dir):
+            os.rmdir(user_data_dir)
 
 def fill_form(state: str, credentials, data) -> str:
     """
