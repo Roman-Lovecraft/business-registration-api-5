@@ -27,7 +27,7 @@ RUN rm -f /usr/local/bin/chromedriver
 # Установка ChromeDriver (ищем последнюю стабильную версию)
 RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.53/linux64/chrome-linux64.zip && \
     unzip /tmp/chrome-linux64.zip  -d /usr/local/bin/ && \
-    chmod +x /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chrome-linux64.zip  && \
     rm /tmp/chrome-linux64.zip 
 
 # Устанавливаем рабочую директорию
