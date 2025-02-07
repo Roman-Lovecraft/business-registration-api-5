@@ -42,13 +42,13 @@ API будет доступно по адресу: http://127.0.0.1:8000/docs
 bash
 Копировать
 Редактировать
-docker build -t business-registration-api-1 .
+docker build -t business-registration-api-5 .
 Запустите контейнер:
 
 bash
 Копировать
 Редактировать
-docker run -d -p 8000:8000 business-registration-api-1
+docker run -it -p 8000:8000 business-registration-api-5
 API будет доступно по адресу: http://localhost:8000
 
 Пример JSON-запроса

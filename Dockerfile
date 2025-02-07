@@ -4,7 +4,7 @@ FROM python:3.9-slim
 # Устанавливаем переменную окружения для пути проекта
 ENV PROJECT_PATH=/app
 
-# Устанавливаем зависимости для работы Chrome
+# Устанавливаем зависимости для работы Chrome и ChromeDriver
 RUN apt-get update && apt-get install -y \
     wget \
     unzip \
@@ -25,10 +25,11 @@ RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add
 RUN rm -f /usr/local/bin/chromedriver
 
 # Установка ChromeDriver (ищем последнюю стабильную версию)
-RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.53/linux64/chrome-linux64.zip && \
-    unzip /tmp/chrome-linux64.zip  -d /usr/local/bin/ && \
-    chmod +x /usr/local/bin/chrome-linux64.zip  && \
-    rm /tmp/chrome-linux64.zip 
+RUN wget -q -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/133.0.6943.53/linux64/chromedriver-linux64.zip && \
+    unzip /tmp/chromedriver.zip -d /tmp/ && \
+    mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm /tmp/chromedriver.zip
 
 # Устанавливаем рабочую директорию
 WORKDIR $PROJECT_PATH
@@ -43,4 +44,5 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 8000
 
 # Команда для запуска API
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
