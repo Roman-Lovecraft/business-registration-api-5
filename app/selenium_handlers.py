@@ -10,6 +10,15 @@ import os
 import tempfile
 
 
+def fill_form(state: str, credentials, data) -> str:
+    """
+    Выбирает обработчик заполнения формы по штату.
+    В данном примере реализован только для штата Орегон (OR).
+    """
+    if state.upper() == "OR":
+        return fill_form_oregon(credentials, data)
+    else:
+        raise ValueError(f"Обработка для штата {state} не реализована.")
 
 
 def fill_form_oregon(credentials, data) -> str:
@@ -326,12 +335,3 @@ def fill_form_oregon(credentials, data) -> str:
     finally:
         driver.quit()
 
-def fill_form(state: str, credentials, data) -> str:
-    """
-    Выбирает обработчик заполнения формы по штату.
-    В данном примере реализован только для штата Орегон (OR).
-    """
-    if state.upper() == "OR":
-        return fill_form_oregon(credentials, data)
-    else:
-        raise ValueError(f"Обработка для штата {state} не реализована.")
